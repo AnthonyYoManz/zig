@@ -228,7 +228,7 @@ pub fn preadv2(fd: i32, iov: [*]const iovec, count: usize, offset: u64, flags: k
         count,
         @truncate(usize, offset),
         @truncate(usize, offset >> 32),
-        flags
+        flags,
     );
 }
 
@@ -259,7 +259,7 @@ pub fn pwritev2(fd: i32, iov: [*]const iovec_const, count: usize, offset: u64, f
         count,
         @truncate(usize, offset),
         @truncate(usize, offset >> 32),
-        flags
+        flags,
     );
 }
 
@@ -962,6 +962,10 @@ pub fn capset(hdrp: *cap_user_header_t, datap: *const cap_user_data_t) usize {
 
 pub fn sigaltstack(ss: ?*stack_t, old_ss: ?*stack_t) usize {
     return syscall2(SYS_sigaltstack, @ptrToInt(ss), @ptrToInt(old_ss));
+}
+
+pub fn uname(uts: *utsname) usize {
+    return syscall1(SYS_uname, @ptrToInt(uts));
 }
 
 // XXX: This should be weak
